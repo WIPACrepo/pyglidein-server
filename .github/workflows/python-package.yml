@@ -29,6 +29,7 @@ jobs:
       with:
         python-version: 3.9
     - name: Install dependencies
+      id: dependencies
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
@@ -36,8 +37,10 @@ jobs:
       run: |
         flake8 pyglidein_server --count --show-source --statistics
     - name: Test and Coverage
+      if: always() && steps.dependencies.outcome != 'failure'
       run: |
         coverage run -m pytest tests --log-level=INFO
     - name: Coverage Text Report
+      if: always() && steps.dependencies.outcome != 'failure'
       run: |
         coverage report -m --fail-under=50
