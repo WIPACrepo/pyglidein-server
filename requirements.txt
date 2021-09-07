@@ -1,0 +1,9 @@
+pytest
+pytest-asyncio
+pytest-mock
+coverage
+flake8
+cryptography
+pyjwt
+htcondor
+-e git+https://github.com/WIPACrepo/rest-tools@v1.1.7#egg=rest_tools

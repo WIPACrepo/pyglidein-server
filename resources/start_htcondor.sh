@@ -1,0 +1,7 @@
+#!/bin/sh
+
+docker run --rm -it --name htcondor -p 9618:9618 \
+    --env _CONDOR_SEC_DEFAULT_AUTHENTICATION_METHODS=CLAIMTOBE \
+    --env '_CONDOR_SEC_CLIENT_AUTHENTICATION_METHODS=$(SEC_DEFAULT_AUTHENTICATION_METHODS)' \
+    --env _CONDOR_BIND_ALL_INTERFACES=true \
+    htcondor/mini:el7
