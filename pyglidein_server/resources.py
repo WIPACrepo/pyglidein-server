@@ -1,11 +1,4 @@
 
-from tornado.web import HTTPError
-import htcondor
-
-class Error(HTTPError):
-    def __init__(self, reason):
-        super().__init__(400, reason=reason)
-
 
 class Resources:
     """
@@ -142,4 +135,3 @@ class Resources:
                 bin = Resources.RESOURCE_BINS[k]
                 ret *= (bin.index(res.resources[k])+1.)/(bin.index(self.resources[k])+1.)
         return ret
-

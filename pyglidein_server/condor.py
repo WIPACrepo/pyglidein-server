@@ -4,7 +4,7 @@ from functools import partial
 import time
 
 import htcondor
-import classad
+# import classad
 
 from .resources import Resources
 
@@ -91,6 +91,6 @@ class JobCounts(dict):
         return (self[k] for k in super().keys() if k != '_sum')
 
     def __missing__(self, key):
-        v = defaultdict(partial(defaultdict,int))
+        v = defaultdict(partial(defaultdict, int))
         self[key] = v
         return v

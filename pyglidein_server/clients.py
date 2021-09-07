@@ -56,6 +56,10 @@ class Clients:
         """Get client data"""
         return self.data[name]
 
+    def get_all(self):
+        """Get all client data"""
+        return self.data
+
     def match(self, name, condor_queue):
         """
         Perform matching for a client.
@@ -116,9 +120,6 @@ class Clients:
             logger.debug(f'global_queue: {global_queue}')
 
             local_queue = max(global_queue - queue['num_queued'], 0)
-            #if glideins_queued > 0:
-            #    local_queue /= glideins_queued
-
             logger.debug(f'local_queue: {local_queue}')
 
             if local_queue > 0:
