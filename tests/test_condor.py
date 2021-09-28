@@ -88,7 +88,7 @@ def test_pool_submit_job_lifecycle(condor_bootstrap):
 
 def htcondor_installed():
     try:
-        subprocess.check_call(['condor_token_fetch', '-version'])
+        subprocess.check_call(['which', 'condor_token_fetch'])
     except Exception:
         return True
     return False
