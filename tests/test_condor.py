@@ -1,5 +1,6 @@
 import time
 import htcondor
+import subprocess
 
 from pyglidein_server import condor
 import pytest
@@ -88,12 +89,12 @@ def test_pool_submit_job_lifecycle(condor_bootstrap):
 
 def htcondor_installed():
     try:
-        subprocess.check_call(['which', 'condor_token_fetch'], shell=True)
-    except Exception:
+        subprocess.check_call(['which', 'condor_token_fetch'])
+    except subprocess.CalledProcessError:
         return True
     return False
 
-@pytest.mark.skipif(htcondor_installed, reason="requires HTCondor binaries to be installed")
+@pytest.mark.skipif(htcondor_installed(), reason="requires HTCondor binaries to be installed")
 def test_get_startd_token(condor_bootstrap):
     cc = condor.CondorCache()
     cc.get_startd_token()
