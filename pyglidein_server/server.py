@@ -75,7 +75,13 @@ class APIClientQueue(BaseHandler):
             raise HTTPError(400, reason='Need to provide client queue status')
 
         ret = self.clients.match(client, self.condor)
-        self.write(ret)
+        if not ret:
+            self.write({})
+        else:
+            self.write({
+                'queues': ret,
+                'token': self.condor.get_startd_token()
+            })
 
 
 def create_server():

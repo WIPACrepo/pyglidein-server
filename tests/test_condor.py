@@ -2,6 +2,7 @@ import time
 import htcondor
 
 from pyglidein_server import condor
+import pytest
 
 from .util import condor_bootstrap, CONDOR_REQUIRED_ADS
 
@@ -84,3 +85,15 @@ def test_pool_submit_job_lifecycle(condor_bootstrap):
     assert htcondor.JobStatus(job['JobStatus']) == htcondor.JobStatus.COMPLETED
     assert job['ExitCode'] == 0
 
+
+def htcondor_installed():
+    try:
+        subprocess.check_call(['condor_token_fetch', '-version'])
+    except Exception:
+        return True
+    return False
+
+@pytest.mark.skipif(htcondor_installed, reason="requires HTCondor binaries to be installed")
+def test_get_startd_token(condor_bootstrap):
+    cc = condor.CondorCache()
+    cc.get_startd_token()

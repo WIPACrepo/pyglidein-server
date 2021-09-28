@@ -1,6 +1,7 @@
 from collections import defaultdict
 from copy import deepcopy
 from functools import partial
+import subprocess
 import time
 
 import htcondor
@@ -74,6 +75,13 @@ class CondorCache:
 
     def get_cached(self):
         return deepcopy(self.cache)
+
+    def get_startd_token(self):
+        """Get an HTCondor auth token"""
+        # currently, the pybindings cannot create a token. so run manually
+        cmd = ['condor_token_fetch', '-authz', 'READ', '-authz', 'WRITE', '-authz', 'ADVERTISE_STARTD', '-authz', 'ADVERTISE_MASTER', '-pool', self.collector_address, '-type', 'COLLECTOR']
+        out = subprocess.check_output(cmd)
+        return out.strip()
 
 
 class JobCounts(dict):

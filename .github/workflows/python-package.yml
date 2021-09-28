@@ -12,7 +12,7 @@ on:
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     services:
       htcondor:
         image: htcondor/mini:el7
@@ -28,6 +28,11 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: 3.9
+    - name: Install HTCondor
+      run: |
+        curl -fsSL https://research.cs.wisc.edu/htcondor/repo/keys/HTCondor-current-Key | sudo apt-key add -
+        sudo sh -c 'echo "deb [arch=amd64] https://research.cs.wisc.edu/htcondor/repo/ubuntu/current focal main\ndeb-src https://research.cs.wisc.edu/htcondor/repo/ubuntu/current focal main" > /etc/apt/sources.list.d/htcondor.list'
+        sudo apt-get update && DEBIAN_FRONTEND=noninteractive sudo apt-get install -y htcondor
     - name: Install dependencies
       id: dependencies
       run: |
