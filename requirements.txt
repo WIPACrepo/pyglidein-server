@@ -6,4 +6,4 @@ flake8
 cryptography
 pyjwt
 htcondor
--e git+https://github.com/WIPACrepo/rest-tools@v1.1.11#egg=rest_tools
+-e git+https://github.com/WIPACrepo/rest-tools@v1.1.14#egg=rest_tools
