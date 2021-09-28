@@ -95,8 +95,8 @@ def create_server():
         # 'COOKIE_SECRET': binascii.hexlify(b'secret').decode('utf-8'),
         'AUTH_SECRET': '',
         'AUTH_EXPIRATION': -1,  # seconds for token lifetime
-        'CONDOR_COLLECTOR': None,
-        'CONDOR_CACHE_TIMEOUT': None,
+        'CONDOR_COLLECTOR': 'localhost',
+        'CONDOR_CACHE_TIMEOUT': 60,
     }
     config = from_environment(default_config)
 
@@ -113,11 +113,10 @@ def create_server():
             rest_cfg['auth']['expiration'] = config['AUTH_EXPIRATION']
     args = RestHandlerSetup(rest_cfg)
 
-    condor_args = {}
-    if config['CONDOR_COLLECTOR']:
-        condor_args['collector_address'] = config['CONDOR_COLLECTOR']
-    if config['CONDOR_CACHE_TIMEOUT']:
-        condor_args['cache_timeout'] = int(config['CONDOR_CACHE_TIMEOUT'])
+    condor_args = {
+        'collector_address': config['CONDOR_COLLECTOR'],
+        'cache_timeout': config['CONDOR_CACHE_TIMEOUT'],
+    }
     args['condor'] = CondorCache(**condor_args)
     args['clients'] = Clients()
 
