@@ -1,3 +1,4 @@
+import json
 import time
 import htcondor
 import subprocess
@@ -17,7 +18,6 @@ def submit_job(schedd, **ads):
     sub = htcondor.Submit(ads)
     with schedd.transaction() as txn:
         sub.queue(txn, 1)
-
 
 def test_job_counts():
     jc = condor.JobCounts()
@@ -86,6 +86,13 @@ def test_pool_submit_job_lifecycle(condor_bootstrap):
     assert htcondor.JobStatus(job['JobStatus']) == htcondor.JobStatus.COMPLETED
     assert job['ExitCode'] == 0
 
+def test_get_json(condor_bootstrap):
+    submit_job(condor_bootstrap)
+    cc = condor.CondorCache(cache_timeout=.1)
+    cache = cc.get()
+    ret = cc.get_json()
+    assert len(ret) == 1
+    json.dumps(ret)
 
 def htcondor_installed():
     try:

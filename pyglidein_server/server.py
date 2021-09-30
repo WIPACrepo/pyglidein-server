@@ -27,8 +27,8 @@ class BaseHandler(RestHandler):
 class StatusHandler(BaseHandler):
     async def get(self):
         self.write({
-            'condor': self.condor.get_cached(),
-            'clients': self.clients.get_all(),
+            'condor': self.condor.get_json(),
+            'clients': self.clients.get_json(),
         })
 
 

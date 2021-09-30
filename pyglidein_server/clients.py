@@ -1,3 +1,4 @@
+from copy import deepcopy
 import math
 import logging
 
@@ -59,6 +60,18 @@ class Clients:
     def get_all(self):
         """Get all client data"""
         return self.data
+
+    def get_json(self):
+        """Get client data in json format"""
+        ret = {}
+        for k in self.data:
+            r = {}
+            for res in self.data[k]:
+                key = hash(res)
+                r[key] = deepcopy(self.data[k][res])
+                r[key]['_resources'] = res.resources
+            ret[k] = r
+        return ret
 
     def match(self, name, condor_queue):
         """

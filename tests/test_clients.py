@@ -1,4 +1,5 @@
 from collections import defaultdict
+import json
 
 import pytest
 
@@ -58,6 +59,24 @@ def test_clients_bad_resource():
     with pytest.raises(Error) as exc_info:
         cl.update('foo', queues)
     assert 'resources' in exc_info.value.reason
+
+def test_get_json():
+    queues = {
+        'foo': {
+            'resources': {},
+            'num_processing': 10,
+            'num_queued': 0,
+        }
+    }
+
+    cl = clients.Clients()
+    cl.update('foo', queues)
+
+    data = cl.get_json()
+    assert len(data) == 1
+    values = list(data.values())
+    assert len(values) == 1
+    json.dumps(data)
 
 
 #######  Matching tests  #######

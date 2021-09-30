@@ -76,6 +76,15 @@ class CondorCache:
     def get_cached(self):
         return deepcopy(self.cache)
 
+    def get_json(self):
+        """Get json version of job cache"""
+        ret = {}
+        for res in self.cache:
+            key = hash(res)
+            ret[key] = deepcopy(self.cache[res])
+            ret[key]['_resources'] = res.resources
+        return ret
+
     def get_startd_token(self):
         """Get an HTCondor auth token"""
         # currently, the pybindings cannot create a token. so run manually
